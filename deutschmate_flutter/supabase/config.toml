@@ -1,0 +1,12 @@
+project_id = "deutschmate-ai"
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+
+[functions.ai-tutor]
+verify_jwt = true

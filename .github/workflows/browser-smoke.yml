@@ -1,0 +1,19 @@
+name: Browser smoke tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  student-journey:
+    runs-on: windows-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+      - name: Run Chrome student journey
+        shell: powershell
+        run: ./tests/smoke.ps1

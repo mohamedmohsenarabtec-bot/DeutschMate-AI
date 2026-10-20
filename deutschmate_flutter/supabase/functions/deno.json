@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "test": "deno test ai-tutor/handler_test.ts ai-tutor/openai_provider_test.ts",
+    "check": "deno check ai-tutor/index.ts ai-tutor/handler_test.ts ai-tutor/openai_provider_test.ts"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitReturns": true
+  }
+}

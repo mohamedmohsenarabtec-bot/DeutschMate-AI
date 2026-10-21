@@ -1,0 +1,57 @@
+
+name: Deploy DeutschMate Flutter Web
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "deutschmate_flutter/**"
+      - ".github/workflows/deploy-flutter-web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        working-directory: deutschmate_flutter
+        run: flutter pub get
+
+      - name: Build Flutter Web
+        working-directory: deutschmate_flutter
+        run: flutter build web --release --base-href /DeutschMate-AI/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: deutschmate_flutter/build/web
+
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
